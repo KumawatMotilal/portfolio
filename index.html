@@ -3,24 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kumawat Motilal — Magento 2 Developer</title>
+<title>Kumawat Motilal — Software & E-Commerce Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#FFFFFF;
-    --bg-soft:#F7F9FC;
-    --bg-navy:#0B2545;
+    --bg-soft:#F6F9FD;
     --navy:#0B2545;
     --navy-2:#12345C;
     --accent:#2563EB;
+    --accent-2:#0EA5A0;
     --accent-soft:#EAF1FE;
+    --accent-2-soft:#E6F8F6;
     --border:#E4E9F0;
     --text:#1B2430;
     --text-muted:#5B6472;
     --text-faint:#8993A4;
-    --radius:8px;
+    --radius:10px;
     --font-display:'Sora', sans-serif;
     --font-body:'Inter', sans-serif;
   }
@@ -31,104 +32,143 @@
     *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
   }
   body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:var(--font-body);
-    line-height:1.65;
+    background:var(--bg); color:var(--text); font-family:var(--font-body); line-height:1.65;
+    overflow-x:hidden;
   }
   a{color:inherit; text-decoration:none;}
   ::selection{background:var(--accent); color:#fff;}
   :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
-  .wrap{max-width:1080px; margin:0 auto; padding:0 32px;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 32px;}
   img{display:block; max-width:100%;}
 
   header.nav{
     position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.92);
     backdrop-filter:blur(8px); border-bottom:1px solid var(--border);
   }
-  .nav-inner{max-width:1080px; margin:0 auto; padding:18px 32px; display:flex; align-items:center; justify-content:space-between;}
+  .nav-inner{max-width:1100px; margin:0 auto; padding:18px 32px; display:flex; align-items:center; justify-content:space-between;}
   .nav-logo{font-family:var(--font-display); font-weight:700; font-size:16px; color:var(--navy); letter-spacing:-0.3px;}
-  .nav-links{display:flex; gap:32px; align-items:center;}
+  .nav-links{display:flex; gap:28px; align-items:center;}
   .nav-links a{font-size:14px; color:var(--text-muted); font-weight:500; transition:color 0.2s;}
   .nav-links a:hover{color:var(--navy);}
-  .nav-cta{
-    background:var(--navy); color:#fff; padding:9px 18px; border-radius:6px; font-size:13.5px; font-weight:600;
-    transition:background 0.2s;
-  }
+  .nav-cta{background:var(--navy); color:#fff; padding:9px 18px; border-radius:6px; font-size:13.5px; font-weight:600; transition:background 0.2s;}
   .nav-cta:hover{background:var(--accent);}
 
-  .hero{padding:88px 0 72px;}
-  .hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:64px; align-items:center;}
+  /* HERO */
+  .hero{padding:88px 0 0; position:relative;}
+  .hero-blob{
+    position:absolute; top:-120px; right:-160px; width:520px; height:520px; border-radius:50%;
+    background:radial-gradient(circle, rgba(37,99,235,0.10), rgba(14,165,160,0.06) 60%, transparent 72%);
+    z-index:0; pointer-events:none;
+  }
+  .hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:64px; align-items:center; position:relative; z-index:1;}
   .eyebrow{
     font-size:13px; font-weight:600; color:var(--accent); letter-spacing:0.6px; text-transform:uppercase;
     margin-bottom:18px; display:flex; align-items:center; gap:9px;
   }
   .eyebrow::before{content:''; width:22px; height:2px; background:var(--accent); border-radius:2px;}
   h1.name{
-    font-family:var(--font-display); font-weight:700; font-size:clamp(36px,5vw,52px);
-    line-height:1.1; letter-spacing:-1px; color:var(--navy); margin-bottom:14px;
+    font-family:var(--font-display); font-weight:800; font-size:clamp(36px,5vw,52px);
+    line-height:1.08; letter-spacing:-1px; color:var(--navy); margin-bottom:14px;
   }
-  .role-line{font-family:var(--font-display); font-size:19px; color:var(--text-muted); font-weight:500; margin-bottom:22px;}
-  .summary{font-size:15.5px; color:var(--text-muted); max-width:520px; margin-bottom:32px;}
+  .role-line{font-family:var(--font-display); font-size:18.5px; color:var(--text-muted); font-weight:500; margin-bottom:20px;}
+  .summary{font-size:15.5px; color:var(--text-muted); max-width:540px; margin-bottom:30px;}
   .hero-ctas{display:flex; gap:12px; margin-bottom:36px; flex-wrap:wrap;}
   .btn{font-size:14px; font-weight:600; padding:12px 22px; border-radius:7px; transition:all 0.2s; display:inline-flex; align-items:center; gap:8px;}
   .btn-primary{background:var(--navy); color:#fff;}
   .btn-primary:hover{background:var(--accent); transform:translateY(-1px); box-shadow:0 8px 20px rgba(37,99,235,0.25);}
   .btn-ghost{border:1.5px solid var(--border); color:var(--navy);}
   .btn-ghost:hover{border-color:var(--navy);}
+  .btn-outline-accent{border:1.5px solid var(--accent-2); color:var(--accent-2);}
+  .btn-outline-accent:hover{background:var(--accent-2-soft);}
   .hero-meta{display:flex; gap:28px; flex-wrap:wrap; border-top:1px solid var(--border); padding-top:20px;}
   .meta-item .meta-label{font-size:11px; text-transform:uppercase; letter-spacing:0.6px; color:var(--text-faint); margin-bottom:4px; font-weight:600;}
   .meta-item .meta-value{font-size:14px; color:var(--navy); font-weight:600;}
 
   .hero-photo{position:relative;}
   .photo-frame{
-    width:100%; aspect-ratio:1/1.05; border-radius:16px; overflow:hidden;
-    background:linear-gradient(150deg, var(--navy) 0%, var(--navy-2) 100%);
+    width:100%; aspect-ratio:1/1.05; border-radius:18px; overflow:hidden;
+    background:linear-gradient(150deg, var(--navy) 0%, var(--navy-2) 55%, var(--accent-2) 140%);
     display:flex; align-items:center; justify-content:center; position:relative;
     box-shadow:0 24px 48px rgba(11,37,69,0.18);
   }
   .photo-frame img{width:100%; height:100%; object-fit:cover;}
-  .photo-placeholder{
-    font-family:var(--font-display); font-size:88px; font-weight:700; color:rgba(255,255,255,0.92);
-    letter-spacing:-2px;
-  }
+  .photo-placeholder{font-family:var(--font-display); font-size:88px; font-weight:700; color:rgba(255,255,255,0.92); letter-spacing:-2px;}
   .photo-badge{
     position:absolute; bottom:-16px; left:50%; transform:translateX(-50%);
     background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px 22px;
-    box-shadow:0 12px 30px rgba(11,37,69,0.12); display:flex; align-items:center; gap:10px;
-    white-space:nowrap;
+    box-shadow:0 12px 30px rgba(11,37,69,0.12); display:flex; align-items:center; gap:10px; white-space:nowrap;
   }
   .photo-badge .dot{width:8px; height:8px; border-radius:50%; background:#22C55E;}
   .photo-badge span{font-size:13px; font-weight:600; color:var(--navy);}
 
+  /* Stats strip */
+  .stats-strip{
+    margin-top:64px; padding:36px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  }
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; text-align:center;}
+  .stat-num{font-family:var(--font-display); font-size:clamp(24px,3.4vw,32px); font-weight:800; color:var(--accent);}
+  .stat-label{font-size:12px; color:var(--text-faint); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-top:6px;}
+
   section{padding:0;}
   .section-band{padding:88px 0;}
   .section-band.soft{background:var(--bg-soft);}
-  .section-head{margin-bottom:44px; max-width:600px;}
+  .section-head{margin-bottom:44px; max-width:640px;}
   .section-title{font-family:var(--font-display); font-size:clamp(26px,3.2vw,34px); font-weight:700; color:var(--navy); letter-spacing:-0.5px;}
   .section-sub{color:var(--text-muted); margin-top:10px; font-size:14.5px;}
 
-  .exp-item{display:grid; grid-template-columns:200px 1fr; gap:32px; padding:32px 0; border-bottom:1px solid var(--border);}
-  .exp-item:first-child{padding-top:0;}
-  .exp-item:last-child{border-bottom:none;}
-  .exp-period{font-size:13px; color:var(--text-faint); font-weight:600; padding-top:2px;}
-  .exp-role{font-family:var(--font-display); font-size:19px; font-weight:600; color:var(--navy); margin-bottom:2px;}
-  .exp-company{font-size:13.5px; color:var(--accent); font-weight:600; margin-bottom:14px;}
-  .exp-tags{display:flex; flex-wrap:wrap; gap:7px; margin-top:14px;}
-  .tag{font-size:12px; font-weight:500; padding:4px 11px; border-radius:5px; background:var(--accent-soft); color:var(--accent);}
-
-  .project-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px;}
-  .project-card{
-    background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:20px;
-    transition:box-shadow 0.2s, border-color 0.2s;
+  /* Featured project cards (Zorch / Master FFL / Jazeera) */
+  .featured-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-bottom:24px;}
+  .f-card{
+    background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:26px;
+    transition:transform 0.25s ease, box-shadow 0.25s ease; position:relative; overflow:hidden;
   }
-  .project-card:hover{box-shadow:0 10px 24px rgba(11,37,69,0.08); border-color:#D6DEEA;}
-  .project-card h4{font-family:var(--font-display); font-size:15.5px; font-weight:600; color:var(--navy); margin-bottom:8px;}
-  .project-card p{font-size:13.5px; color:var(--text-muted); margin-bottom:0;}
+  .f-card:hover{transform:translateY(-4px); box-shadow:0 18px 40px rgba(11,37,69,0.10);}
+  .f-card::before{content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--accent), var(--accent-2));}
+  .f-kicker{font-size:11px; font-weight:700; color:var(--accent-2); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:10px;}
+  .f-title{font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--navy); margin-bottom:4px;}
+  .f-company{font-size:12.5px; color:var(--text-faint); font-weight:600; margin-bottom:14px;}
+  .f-list{list-style:none;}
+  .f-list li{font-size:13.5px; color:var(--text-muted); padding-left:16px; position:relative; margin-bottom:8px;}
+  .f-list li::before{content:''; position:absolute; left:0; top:8px; width:5px; height:5px; border-radius:50%; background:var(--accent);}
+  .f-tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:14px;}
+  .tag{font-size:11.5px; font-weight:500; padding:4px 10px; border-radius:5px; background:var(--accent-soft); color:var(--accent);}
+  .tag.alt{background:var(--accent-2-soft); color:var(--accent-2);}
 
-  .skills-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
-  .skill-group{background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:24px;}
-  .skill-group h4{font-family:var(--font-display); font-size:14px; font-weight:600; color:var(--navy); margin-bottom:14px;}
+  .parallel-note{
+    display:flex; align-items:center; gap:12px; background:var(--accent-2-soft); border:1px solid rgba(14,165,160,0.25);
+    border-radius:var(--radius); padding:16px 20px; font-size:13.5px; color:var(--navy); margin-bottom:44px;
+  }
+  .parallel-note b{color:var(--accent-2);}
+
+  /* Secondary project row */
+  .sub-head{font-family:var(--font-display); font-size:16px; font-weight:700; color:var(--navy); margin-bottom:18px;}
+  .project-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:56px;}
+  .project-card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:20px; transition:box-shadow 0.2s, border-color 0.2s;}
+  .project-card:hover{box-shadow:0 10px 24px rgba(11,37,69,0.08); border-color:#D6DEEA;}
+  .project-card h4{font-family:var(--font-display); font-size:15px; font-weight:600; color:var(--navy); margin-bottom:8px;}
+  .project-card p{font-size:13.5px; color:var(--text-muted);}
+
+  /* Internal systems */
+  .internal-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+  .i-card{
+    background:linear-gradient(155deg, var(--navy) 0%, var(--navy-2) 100%); color:#fff;
+    border-radius:var(--radius); padding:28px; position:relative; overflow:hidden;
+  }
+  .i-card::after{
+    content:''; position:absolute; right:-40px; bottom:-40px; width:140px; height:140px; border-radius:50%;
+    background:rgba(255,255,255,0.06);
+  }
+  .i-kicker{font-size:11px; font-weight:700; color:#8FD9D3; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:10px;}
+  .i-title{font-family:var(--font-display); font-size:19px; font-weight:700; margin-bottom:12px;}
+  .i-list{list-style:none; position:relative; z-index:1;}
+  .i-list li{font-size:13.5px; color:rgba(255,255,255,0.82); padding-left:16px; position:relative; margin-bottom:9px;}
+  .i-list li::before{content:''; position:absolute; left:0; top:8px; width:5px; height:5px; border-radius:50%; background:#8FD9D3;}
+
+  /* Skills */
+  .skills-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .skill-group{background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:22px;}
+  .skill-group h4{font-family:var(--font-display); font-size:13.5px; font-weight:700; color:var(--navy); margin-bottom:13px; display:flex; align-items:center; gap:8px;}
+  .skill-group h4 .sw{width:8px; height:8px; border-radius:2px; background:var(--accent-2); display:inline-block;}
   .skill-chips{display:flex; flex-wrap:wrap; gap:7px;}
   .chip{font-size:12.5px; padding:5px 11px; border-radius:6px; background:var(--bg-soft); border:1px solid var(--border); color:var(--text);}
 
@@ -154,11 +194,15 @@
   .reveal{opacity:0; transform:translateY(18px); transition:opacity 0.6s ease, transform 0.6s ease;}
   .reveal.in-view{opacity:1; transform:translateY(0);}
 
+  @media (max-width:900px){
+    .featured-grid{grid-template-columns:1fr;}
+    .internal-grid{grid-template-columns:1fr;}
+  }
   @media (max-width:860px){
     .nav-links{display:none;}
     .hero-grid{grid-template-columns:1fr; gap:48px;}
     .hero-photo{order:-1; max-width:280px; margin:0 auto;}
-    .exp-item{grid-template-columns:1fr; gap:8px;}
+    .stats-grid{grid-template-columns:1fr 1fr;}
     .project-grid{grid-template-columns:1fr;}
     .skills-grid{grid-template-columns:1fr 1fr;}
     .edu-grid{grid-template-columns:1fr;}
@@ -174,7 +218,7 @@
   <div class="nav-inner">
     <div class="nav-logo">Kumawat Motilal</div>
     <nav class="nav-links">
-      <a href="#experience">Experience</a>
+      <a href="#work">Work</a>
       <a href="#skills">Skills</a>
       <a href="#education">Education</a>
       <a href="#contact" class="nav-cta">Contact</a>
@@ -185,20 +229,22 @@
 <main>
   <div class="wrap">
     <section class="hero">
+      <div class="hero-blob"></div>
       <div class="hero-grid">
         <div>
           <div class="eyebrow">Available for hire</div>
           <h1 class="name">Kumawat Motilal</h1>
-          <div class="role-line">Magento 2 Developer · Full-Stack E-Commerce Engineer</div>
-          <p class="summary">2.5+ years building and maintaining full-stack e-commerce platforms — custom modules, multi-store architecture, database administration, server deployment, and WCAG 2.2 AAA accessibility compliance. Comfortable owning a project end-to-end, from architecture through production.</p>
+          <div class="role-line">Software Developer · E-Commerce Developer (Magento 2)</div>
+          <p class="summary">Motilal Kumawat is a Software Developer specializing in custom software development, backend development, API integrations, database management, and web application development. He builds scalable, reliable, and user-friendly software solutions with a focus on performance, functionality, and overall user experience. He also writes technical blogs, tutorials, and development guides covering software development and web technologies.</p>
           <div class="hero-ctas">
             <a href="mailto:kumawatmotilal0035@gmail.com" class="btn btn-primary">Get in Touch</a>
-            <a href="#experience" class="btn btn-ghost">View Experience</a>
+            <a href="#work" class="btn btn-ghost">View Work</a>
+            <a href="resume.pdf" class="btn btn-outline-accent" download>Download Resume ↓</a>
           </div>
           <div class="hero-meta">
             <div class="meta-item">
               <div class="meta-label">Experience</div>
-              <div class="meta-value">2.5+ Years</div>
+              <div class="meta-value">3+ Years</div>
             </div>
             <div class="meta-item">
               <div class="meta-label">Location</div>
@@ -206,58 +252,116 @@
             </div>
             <div class="meta-item">
               <div class="meta-label">Core Stack</div>
-              <div class="meta-value">Magento 2 · PHP · Laravel</div>
+              <div class="meta-value">Magento 2 · PHP · Laravel · APIs</div>
             </div>
           </div>
         </div>
         <div class="hero-photo">
           <div class="photo-frame">
-            <!-- Replace this block with: <img src="your-photo.jpg" alt="Kumawat Motilal"> -->
+            <!-- Replace this block with: <img src="emp_1769607922_7308.png" alt="Kumawat Motilal"> -->
             <div class="photo-placeholder">KM</div>
           </div>
           <div class="photo-badge"><span class="dot"></span><span>Open to opportunities</span></div>
         </div>
       </div>
+
+      <div class="stats-strip reveal">
+        <div class="stats-grid">
+          <div><div class="stat-num">3+</div><div class="stat-label">Years Experience</div></div>
+          <div><div class="stat-num">9+</div><div class="stat-label">Projects Delivered</div></div>
+          <div><div class="stat-num">2–3</div><div class="stat-label">Concurrent Projects</div></div>
+          <div><div class="stat-num">AAA</div><div class="stat-label">WCAG 2.2 Compliance</div></div>
+        </div>
+      </div>
     </section>
   </div>
 
-  <section class="section-band" id="experience">
+  <section class="section-band" id="work">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="eyebrow">Experience</div>
-        <h2 class="section-title">Professional Experience</h2>
-        <p class="section-sub">Full-stack Magento 2 development at Mavenbird Technologies, across multi-store platforms and ground-up builds.</p>
+        <div class="eyebrow">Featured Work</div>
+        <h2 class="section-title">Custom Modules & Business Logic</h2>
+        <p class="section-sub">Core platforms where custom Magento 2 modules and business-specific logic were designed and built from the ground up.</p>
       </div>
 
-      <div class="exp-item reveal">
-        <div class="exp-period">Apr 2023 — Present</div>
-        <div>
-          <div class="exp-role">Magento Developer</div>
-          <div class="exp-company">Mavenbird Technologies</div>
-          <div class="project-grid">
-            <div class="project-card">
-              <h4>Zorch — Merchandising Store Network</h4>
-              <p>Full-stack developer on a large multi-store platform; manages store views, Figma-based UI delivery, and WCAG 2.2 AAA accessibility across all stores.</p>
-            </div>
-            <div class="project-card">
-              <h4>Muaban247 — Classifieds Platform</h4>
-              <p>Sole full-stack developer, built end-to-end. Provisioned and maintains staging and production servers independently.</p>
-            </div>
-            <div class="project-card">
-              <h4>Master FFL</h4>
-              <p>Built a custom classifieds module for firearms-industry compliance and listing requirements, in active production use.</p>
-            </div>
-            <div class="project-card">
-              <h4>Jazeera</h4>
-              <p>Custom Painter product type, group-based checkout logic, cart/search UX work including Arabic-to-English search translation.</p>
-            </div>
-            <div class="project-card">
-              <h4>Demo Site & Multi-Vendor Module</h4>
-              <p>Built a one-step PHP demo setup site plus a Multi-Vendor Base Module with PayPal payments and vendor shipping logic.</p>
-            </div>
+      <div class="featured-grid reveal">
+        <div class="f-card">
+          <div class="f-kicker">Multi-store Platform</div>
+          <div class="f-title">Zorch</div>
+          <div class="f-company">Merchandising Store Network</div>
+          <ul class="f-list">
+            <li>Full-stack across a large multi-store platform, owning custom modules and store-specific business logic</li>
+            <li>Store view/website setup, Figma-led UI delivery, WCAG 2.2 AAA accessibility</li>
+            <li>Production data migrations and customer import/export at scale</li>
+          </ul>
+          <div class="f-tags"><span class="tag">Custom Modules</span><span class="tag alt">Custom Logic</span><span class="tag">Multi-store</span></div>
+        </div>
+
+        <div class="f-card">
+          <div class="f-kicker">Compliance Platform</div>
+          <div class="f-title">Master FFL</div>
+          <div class="f-company">Firearms Industry E-Commerce</div>
+          <ul class="f-list">
+            <li>Built a custom classifieds module with logic tailored to firearms-industry compliance rules</li>
+            <li>Module is in active, regular production use</li>
+            <li>Ongoing custom configuration for compliant listing workflows</li>
+          </ul>
+          <div class="f-tags"><span class="tag">Custom Module</span><span class="tag alt">Compliance Logic</span></div>
+        </div>
+
+        <div class="f-card">
+          <div class="f-kicker">E-Commerce Platform</div>
+          <div class="f-title">Jazeera</div>
+          <div class="f-company">Custom Product & Checkout Logic</div>
+          <ul class="f-list">
+            <li>Built a custom Painter product type with group-based customization logic</li>
+            <li>Custom checkout logic, cart functionality, and multiple search result pages</li>
+            <li>Arabic-to-English search translation and cart/checkout/search performance work</li>
+          </ul>
+          <div class="f-tags"><span class="tag">Custom Product Type</span><span class="tag alt">Checkout Logic</span></div>
+        </div>
+      </div>
+
+      <div class="parallel-note reveal">
+        <span>⇄</span>
+        <div>Regularly manages <b>2–3 concurrent projects</b> in parallel across different clients and platforms, alongside ongoing API integration and backend work.</div>
+      </div>
+
+      <div class="reveal">
+        <div class="sub-head">Also Delivered</div>
+        <div class="project-grid">
+          <div class="project-card">
+            <h4>Muaban247 — Classifieds Platform</h4>
+            <p>Full-stack, built from scratch as sole developer — every core classifieds feature, plus independent provisioning and maintenance of staging and production servers.</p>
           </div>
-          <div class="exp-tags">
-            <span class="tag">Magento 2</span><span class="tag">PHP</span><span class="tag">Multi-store</span><span class="tag">WCAG 2.2 AAA</span><span class="tag">Server Admin</span>
+          <div class="project-card">
+            <h4>Demo Site & Multi-Vendor Base Module</h4>
+            <p>One-step PHP demo setup with bulk data scripts, plus a Multi-Vendor Base Module covering onboarding, PayPal payments, and vendor shipping logic.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="sub-head">Internal Systems — Built From Scratch</div>
+        <div class="internal-grid">
+          <div class="i-card">
+            <div class="i-kicker">Internal Company Tool</div>
+            <div class="i-title">HRMS — Human Resource Management System</div>
+            <ul class="i-list">
+              <li>Built end-to-end for internal company use, covering employee information management</li>
+              <li>Leave management and daily time-log tracking</li>
+              <li>Integrated with the company PMS via API to fetch and sync project data</li>
+              <li>Automated email alerts when a daily time log is missed, with a proper time-log dashboard</li>
+            </ul>
+          </div>
+          <div class="i-card">
+            <div class="i-kicker">Internal Company Tool</div>
+            <div class="i-title">CRM — Customer Relationship Management System</div>
+            <ul class="i-list">
+              <li>Built from scratch for internal company use</li>
+              <li>Custom backend logic and database structure for managing customer and lead data</li>
+              <li>Designed for internal team workflows alongside the HRMS platform</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -272,24 +376,40 @@
       </div>
       <div class="skills-grid reveal">
         <div class="skill-group">
-          <h4>Platforms & Languages</h4>
+          <h4><span class="sw"></span>Platforms & Languages</h4>
           <div class="skill-chips">
             <span class="chip">Magento 2</span><span class="chip">Laravel</span><span class="chip">OsClass</span>
             <span class="chip">PHP</span><span class="chip">JavaScript</span><span class="chip">jQuery</span><span class="chip">AJAX</span>
           </div>
         </div>
         <div class="skill-group">
-          <h4>Frontend & Accessibility</h4>
+          <h4><span class="sw"></span>Frontend</h4>
           <div class="skill-chips">
-            <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Responsive UI</span>
-            <span class="chip">Theme Frameworks</span><span class="chip">WCAG 2.2 AAA</span>
+            <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Hyvä</span><span class="chip">Tailwind CSS</span>
           </div>
         </div>
         <div class="skill-group">
-          <h4>Server, Hosting & DevOps</h4>
+          <h4><span class="sw"></span>APIs & Integration</h4>
           <div class="skill-chips">
-            <span class="chip">cPanel</span><span class="chip">Server Setup</span><span class="chip">Monitoring</span>
-            <span class="chip">Git</span><span class="chip">Git Flow</span><span class="chip">Jira</span><span class="chip">Bitbucket</span><span class="chip">GitHub</span>
+            <span class="chip">REST API Integration</span><span class="chip">API Development</span><span class="chip">Third-Party APIs</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4><span class="sw"></span>Accessibility</h4>
+          <div class="skill-chips">
+            <span class="chip">WCAG 2.2 AAA</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4><span class="sw"></span>Server & Hosting</h4>
+          <div class="skill-chips">
+            <span class="chip">cPanel</span><span class="chip">Cloudways</span><span class="chip">Hostinger</span><span class="chip">Server Setup</span><span class="chip">Monitoring</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4><span class="sw"></span>DevOps & Tools</h4>
+          <div class="skill-chips">
+            <span class="chip">Git</span><span class="chip">Git Flow</span><span class="chip">Jira</span><span class="chip">Bitbucket</span><span class="chip">GitHub</span><span class="chip">GA4</span><span class="chip">Figma</span>
           </div>
         </div>
       </div>
@@ -325,7 +445,7 @@
     <div class="wrap reveal">
       <div class="eyebrow" style="justify-content:center; color:#8FB4FF;">Contact</div>
       <h2 class="section-title">Let's work together</h2>
-      <p>Open to full-stack Magento 2 and e-commerce roles. Reach out directly — no forms, no gatekeeping.</p>
+      <p>Open to full-stack, e-commerce, and API-driven development roles. Reach out directly — no forms, no gatekeeping.</p>
       <div class="contact-ctas">
         <a href="mailto:kumawatmotilal0035@gmail.com" class="btn btn-primary">kumawatmotilal0035@gmail.com</a>
         <a href="tel:7874028263" class="btn btn-ghost">+91 78740 28263</a>
