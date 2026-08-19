@@ -1,1 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kumawat Motilal — Magento 2 Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14171C;
+    --bg-elevated:#1B1F26;
+    --bg-card:#1F242C;
+    --border:#2A303A;
+    --border-hover:#3A4250;
+    --accent:#F2621F;
+    --accent-soft:rgba(242,98,31,0.14);
+    --accent-glow:rgba(242,98,31,0.35);
+    --text:#ECE9E4;
+    --text-muted:#8B92A0;
+    --text-faint:#5B6472;
+    --success:#4ADE80;
+    --success-soft:rgba(74,222,128,0.12);
+    --radius:10px;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    overflow-x:hidden;
+    position:relative;
+  }
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--accent); color:#14171C;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
 
+  .glow-field{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background: radial-gradient(600px circle at var(--mx,50%) var(--my,20%), var(--accent-soft), transparent 60%);
+    transition: background 0.3s ease;
+  }
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+  section{position:relative; z-index:1;}
+
+  /* NAV */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(20,23,28,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    max-width:1120px; margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-logo{
+    font-family:var(--font-mono); font-size:13px; color:var(--text-muted);
+    letter-spacing:0.5px;
+  }
+  .nav-logo b{color:var(--text); font-weight:600;}
+  .nav-links{display:flex; gap:28px; align-items:center;}
+  .nav-links a{
+    font-family:var(--font-mono); font-size:13px; color:var(--text-muted);
+    position:relative; padding:4px 0; transition:color 0.2s;
+  }
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:0; width:0; height:1px;
+    background:var(--accent); transition:width 0.25s ease;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{
+    font-family:var(--font-mono); font-size:12px; padding:8px 14px;
+    border:1px solid var(--border-hover); border-radius:6px; color:var(--text);
+    transition:all 0.2s;
+  }
+  .nav-cta:hover{border-color:var(--accent); background:var(--accent-soft); color:var(--accent);}
+
+  /* HERO */
+  .hero{padding:88px 0 64px;}
+  .breadcrumb{
+    font-family:var(--font-mono); font-size:12px; color:var(--text-faint);
+    margin-bottom:28px; letter-spacing:0.3px;
+  }
+  .breadcrumb span{color:var(--accent);}
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:start;
+  }
+  .status-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:12px; color:var(--success);
+    background:var(--success-soft); border:1px solid rgba(74,222,128,0.3);
+    padding:6px 12px; border-radius:20px; margin-bottom:24px;
+  }
+  .status-dot{width:6px; height:6px; border-radius:50%; background:var(--success); box-shadow:0 0 8px var(--success); animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.4;}}
+  h1.name{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(40px, 6vw, 64px); line-height:1.02; letter-spacing:-1.5px;
+    margin-bottom:14px;
+  }
+  h1.name .accent-underline{
+    background:linear-gradient(transparent 62%, var(--accent-soft) 62%);
+  }
+  .role-line{
+    font-family:var(--font-display); font-size:clamp(17px,2.4vw,21px);
+    color:var(--text-muted); font-weight:500; margin-bottom:22px;
+  }
+  .summary{
+    font-size:15.5px; color:var(--text-muted); max-width:520px; margin-bottom:32px;
+  }
+  .hero-ctas{display:flex; gap:12px; margin-bottom:40px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--font-mono); font-size:13px; padding:12px 22px; border-radius:7px;
+    transition:all 0.2s ease; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{background:var(--accent); color:#14171C; font-weight:600; border:1px solid var(--accent);}
+  .btn-primary:hover{background:#ff7433; box-shadow:0 6px 24px var(--accent-glow); transform:translateY(-1px);}
+  .btn-ghost{border:1px solid var(--border-hover); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent);}
+
+  .spec-sheet{
+    display:grid; grid-template-columns:1fr 1fr; gap:16px 28px;
+    border-top:1px solid var(--border); padding-top:20px;
+  }
+  .spec-item .spec-label{
+    font-family:var(--font-mono); font-size:10.5px; color:var(--text-faint);
+    text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;
+  }
+  .spec-item .spec-value{font-size:14px; color:var(--text); font-weight:500;}
+
+  /* Terminal */
+  .terminal{
+    background:var(--bg-elevated); border:1px solid var(--border); border-radius:12px;
+    overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  }
+  .terminal-bar{
+    display:flex; align-items:center; gap:8px; padding:12px 16px;
+    background:var(--bg-card); border-bottom:1px solid var(--border);
+  }
+  .tdot{width:10px; height:10px; border-radius:50%;}
+  .tdot.r{background:#FF5F57;} .tdot.y{background:#FEBC2E;} .tdot.g{background:#28C840;}
+  .terminal-title{
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint); margin-left:8px;
+  }
+  .terminal-body{
+    padding:22px; font-family:var(--font-mono); font-size:13px; line-height:1.85;
+    min-height:280px; color:var(--text-muted);
+  }
+  .terminal-body .prompt{color:var(--success);}
+  .terminal-body .cmd{color:var(--text);}
+  .terminal-body .out{color:var(--text-muted); padding-left:0;}
+  .terminal-body .ok{color:var(--success);}
+  .cursor{
+    display:inline-block; width:7px; height:14px; background:var(--accent);
+    vertical-align:middle; animation:blink 1s step-end infinite; margin-left:2px;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  /* Stats */
+  .stats{
+    padding:48px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  }
+  .stats-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:24px; text-align:center;
+  }
+  .stat-num{
+    font-family:var(--font-display); font-size:clamp(28px,4vw,40px); font-weight:700; color:var(--accent);
+  }
+  .stat-label{
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);
+    text-transform:uppercase; letter-spacing:0.8px; margin-top:6px;
+  }
+
+  /* Section heading pattern */
+  .section-head{margin-bottom:44px; padding-top:96px;}
+  .section-eyebrow{
+    font-family:var(--font-mono); font-size:12px; color:var(--accent);
+    letter-spacing:1px; margin-bottom:10px; display:flex; align-items:center; gap:10px;
+  }
+  .section-eyebrow::before{content:''; width:24px; height:1px; background:var(--accent);}
+  .section-title{
+    font-family:var(--font-display); font-size:clamp(26px,3.4vw,36px); font-weight:600; letter-spacing:-0.5px;
+  }
+  .section-sub{color:var(--text-muted); margin-top:10px; max-width:560px; font-size:14.5px;}
+
+  /* Catalog / project cards */
+  .catalog-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:20px;
+  }
+  .catalog-grid .card-wide{grid-column:1 / -1;}
+  .p-card{
+    background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:26px; transition:transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    opacity:0; transform:translateY(18px);
+  }
+  .p-card.in-view{opacity:1; transform:translateY(0);}
+  .p-card:hover{
+    border-color:var(--border-hover); transform:translateY(-4px);
+    box-shadow:0 16px 40px rgba(0,0,0,0.35);
+  }
+  .p-card-top{
+    display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; gap:12px;
+  }
+  .p-sku{font-family:var(--font-mono); font-size:11px; color:var(--text-faint); letter-spacing:0.5px;}
+  .p-badge{
+    font-family:var(--font-mono); font-size:10.5px; padding:4px 10px; border-radius:20px;
+    white-space:nowrap; border:1px solid transparent;
+  }
+  .p-badge.live{background:var(--success-soft); color:var(--success); border-color:rgba(74,222,128,0.3);}
+  .p-badge.done{background:var(--accent-soft); color:var(--accent); border-color:rgba(242,98,31,0.3);}
+  .p-title{font-family:var(--font-display); font-size:19px; font-weight:600; margin-bottom:4px;}
+  .p-company{font-family:var(--font-mono); font-size:12px; color:var(--text-faint); margin-bottom:14px;}
+  .p-list{list-style:none;}
+  .p-list li{
+    font-size:13.8px; color:var(--text-muted); padding-left:16px; position:relative; margin-bottom:8px;
+  }
+  .p-list li::before{
+    content:'—'; position:absolute; left:0; color:var(--accent);
+  }
+  .p-tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .p-tag{
+    font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);
+    border:1px solid var(--border); padding:3px 9px; border-radius:5px;
+  }
+
+  /* Skills inventory */
+  .inventory{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:18px;
+  }
+  .inv-row{
+    display:flex; gap:20px; padding:18px 0; border-bottom:1px solid var(--border);
+  }
+  .inv-key{
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);
+    text-transform:uppercase; letter-spacing:0.6px; width:150px; flex-shrink:0; padding-top:3px;
+  }
+  .inv-chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-size:13px; padding:5px 12px; border-radius:6px; background:var(--bg-card);
+    border:1px solid var(--border); color:var(--text); transition:all 0.2s;
+  }
+  .chip:hover{border-color:var(--accent); color:var(--accent);}
+
+  /* Education / achievements */
+  .edu-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .edu-card{
+    background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:24px;
+  }
+  .edu-card h3{
+    font-family:var(--font-mono); font-size:12px; color:var(--accent); text-transform:uppercase;
+    letter-spacing:0.8px; margin-bottom:16px;
+  }
+  .edu-card ul{list-style:none;}
+  .edu-card li{
+    font-size:14px; color:var(--text-muted); padding:10px 0; border-bottom:1px dashed var(--border);
+  }
+  .edu-card li:last-child{border-bottom:none;}
+  .edu-card li b{color:var(--text); font-weight:500;}
+
+  /* Contact / footer */
+  .contact{
+    padding:96px 0 40px; text-align:center;
+  }
+  .contact-title{
+    font-family:var(--font-display); font-size:clamp(30px,5vw,48px); font-weight:700; letter-spacing:-1px;
+    margin-bottom:16px;
+  }
+  .contact-title .accent{color:var(--accent);}
+  .contact p{color:var(--text-muted); max-width:460px; margin:0 auto 32px;}
+  .contact-ctas{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:56px;}
+  .contact-meta{
+    display:flex; justify-content:center; gap:28px; flex-wrap:wrap;
+    font-family:var(--font-mono); font-size:12.5px; color:var(--text-faint);
+    border-top:1px solid var(--border); padding-top:28px;
+  }
+  .contact-meta span b{color:var(--text-muted); font-weight:500;}
+  footer.foot{
+    text-align:center; padding:24px 0 40px; font-family:var(--font-mono);
+    font-size:11.5px; color:var(--text-faint);
+  }
+
+  .reveal{opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal.in-view{opacity:1; transform:translateY(0);}
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .hero-grid{grid-template-columns:1fr;}
+    .spec-sheet{grid-template-columns:1fr 1fr;}
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .catalog-grid{grid-template-columns:1fr;}
+    .inventory{grid-template-columns:1fr;}
+    .edu-grid{grid-template-columns:1fr;}
+    .inv-row{flex-direction:column; gap:10px;}
+    .inv-key{width:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="glow-field" id="glowField"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><b>KM</b> / portfolio</div>
+    <nav class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="breadcrumb">admin <span>/</span> portfolio <span>/</span> kumawat-motilal</div>
+    <div class="hero-grid">
+      <div>
+        <div class="status-badge"><span class="status-dot"></span>Available for hire</div>
+        <h1 class="name">Kumawat<br><span class="accent-underline">Motilal</span></h1>
+        <div class="role-line">Magento 2 Developer — Full-Stack E-Commerce Engineer</div>
+        <p class="summary">2.5+ years building and maintaining full-stack e-commerce platforms — custom modules, multi-store architecture, database administration, server deployment, and WCAG 2.2 AAA accessibility compliance. Comfortable owning a project end-to-end, from architecture to production.</p>
+        <div class="hero-ctas">
+          <a href="mailto:kumawatmotilal0035@gmail.com" class="btn btn-primary">Get in Touch →</a>
+          <a href="#work" class="btn btn-ghost">View Work</a>
+        </div>
+        <div class="spec-sheet">
+          <div class="spec-item">
+            <div class="spec-label">Experience</div>
+            <div class="spec-value">2.5+ Years</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Location</div>
+            <div class="spec-value">Gandhinagar, Gujarat</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Core Stack</div>
+            <div class="spec-value">Magento 2 · PHP · Laravel</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Languages</div>
+            <div class="spec-value">Hindi · Gujarati · English</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+          <span class="terminal-title">motilal@mavenbird ~ magento</span>
+        </div>
+        <div class="terminal-body" id="terminalBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats reveal">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-num" data-target="2.5" data-suffix="+">0</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num" data-target="5" data-suffix="">0</div>
+        <div class="stat-label">Platforms Delivered</div>
+      </div>
+      <div>
+        <div class="stat-num" data-target="2.2" data-suffix=" AAA">0</div>
+        <div class="stat-label">WCAG Compliance</div>
+      </div>
+      <div>
+        <div class="stat-num" data-target="8.8" data-suffix="">0</div>
+        <div class="stat-label">BCA CGPA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK / CATALOG -->
+  <section id="work">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">catalog</div>
+      <h2 class="section-title">Projects & Platforms</h2>
+      <p class="section-sub">Full-stack e-commerce work shipped at Mavenbird Technologies — from large multi-store deployments to platforms built from the ground up.</p>
+    </div>
+
+    <div class="catalog-grid">
+
+      <div class="p-card card-wide">
+        <div class="p-card-top">
+          <span class="p-sku">SKU · ZORCH-2023</span>
+          <span class="p-badge live">● Live — Current Project</span>
+        </div>
+        <div class="p-title">Zorch — Merchandising Store Network</div>
+        <div class="p-company">Mavenbird Technologies</div>
+        <ul class="p-list">
+          <li>Full-stack developer across a large multi-store Magento platform, owning both frontend and backend</li>
+          <li>Set up and manage multiple store views/websites with store-specific configuration per client</li>
+          <li>Led development from Figma UI designs, maintained modules, fixed bugs, shipped new features</li>
+          <li>Delivered WCAG 2.2 AAA accessibility improvements across all stores</li>
+          <li>Managed store creation, customer import/export, and complex production data migrations</li>
+        </ul>
+        <div class="p-tags">
+          <span class="p-tag">Magento 2</span><span class="p-tag">Multi-store</span><span class="p-tag">Figma</span><span class="p-tag">WCAG 2.2 AAA</span>
+        </div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-top">
+          <span class="p-sku">SKU · MUABAN247</span>
+          <span class="p-badge done">Built from Scratch</span>
+        </div>
+        <div class="p-title">Muaban247</div>
+        <div class="p-company">Classifieds Platform — Full-Stack</div>
+        <ul class="p-list">
+          <li>Sole full-stack developer, owning frontend and backend end-to-end</li>
+          <li>Built all core classifieds functionality for listing, browsing, and managing ads</li>
+          <li>Provisioned and maintained staging and live production servers independently</li>
+          <li>Handled ongoing server administration for platform stability and uptime</li>
+        </ul>
+        <div class="p-tags">
+          <span class="p-tag">PHP</span><span class="p-tag">Server Admin</span><span class="p-tag">cPanel</span>
+        </div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-top">
+          <span class="p-sku">SKU · MASTERFFL</span>
+          <span class="p-badge live">● Active Module</span>
+        </div>
+        <div class="p-title">Master FFL</div>
+        <div class="p-company">Firearms Industry E-Commerce Platform</div>
+        <ul class="p-list">
+          <li>Built a custom classifieds module for compliance and listing requirements, now in active regular use</li>
+          <li>Contributed additional platform functionality for compliant, industry-specific workflows</li>
+        </ul>
+        <div class="p-tags">
+          <span class="p-tag">Magento 2</span><span class="p-tag">Custom Module</span>
+        </div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-top">
+          <span class="p-sku">SKU · JAZEERA</span>
+          <span class="p-badge done">Delivered</span>
+        </div>
+        <div class="p-title">Jazeera</div>
+        <div class="p-company">E-Commerce Platform</div>
+        <ul class="p-list">
+          <li>Developed a custom Painter product type with group-based customization and checkout logic</li>
+          <li>Built cart page functionality and multiple search result pages, including Arabic-to-English search translation</li>
+          <li>Shipped performance and UX optimizations across cart, checkout, and search</li>
+        </ul>
+        <div class="p-tags">
+          <span class="p-tag">Magento 2</span><span class="p-tag">Checkout Logic</span><span class="p-tag">i18n Search</span>
+        </div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-card-top">
+          <span class="p-sku">SKU · DEMO-MVBM</span>
+          <span class="p-badge done">Completed</span>
+        </div>
+        <div class="p-title">Demo Site & Multi-Vendor Base Module</div>
+        <div class="p-company">Internal Tooling</div>
+        <ul class="p-list">
+          <li>Built a one-step PHP demo setup site with bulk demo data insertion and cleanup scripts</li>
+          <li>Built a Multi-Vendor Base Module covering onboarding, PayPal membership payments, and vendor shipping logic</li>
+        </ul>
+        <div class="p-tags">
+          <span class="p-tag">PHP</span><span class="p-tag">PayPal</span><span class="p-tag">Multi-Vendor</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">inventory</div>
+      <h2 class="section-title">Skills & Tools</h2>
+    </div>
+    <div class="inventory reveal">
+      <div class="inv-row">
+        <div class="inv-key">Platforms</div>
+        <div class="inv-chips"><span class="chip">Magento 2</span><span class="chip">Laravel</span><span class="chip">OsClass</span></div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-key">Languages</div>
+        <div class="inv-chips"><span class="chip">PHP</span><span class="chip">JavaScript</span><span class="chip">jQuery</span><span class="chip">AJAX</span></div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-key">Frontend</div>
+        <div class="inv-chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Responsive UI</span><span class="chip">Theme Frameworks</span></div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-key">Accessibility</div>
+        <div class="inv-chips"><span class="chip">WCAG 2.2 AAA</span></div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-key">Server & Hosting</div>
+        <div class="inv-chips"><span class="chip">cPanel</span><span class="chip">Server Setup</span><span class="chip">Monitoring</span><span class="chip">Cloud Basics</span></div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-key">DevOps</div>
+        <div class="inv-chips"><span class="chip">Git</span><span class="chip">Git Flow</span><span class="chip">Jira</span><span class="chip">Bitbucket</span><span class="chip">GitHub</span></div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-key">Other Tools</div>
+        <div class="inv-chips"><span class="chip">GA4</span><span class="chip">Figma</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">record</div>
+      <h2 class="section-title">Education & Achievements</h2>
+    </div>
+    <div class="edu-grid reveal">
+      <div class="edu-card">
+        <h3>Education</h3>
+        <ul>
+          <li>Bachelor of Computer Applications (BCA) — <b>8.8 CGPA</b></li>
+        </ul>
+      </div>
+      <div class="edu-card">
+        <h3>Achievements & Activities</h3>
+        <ul>
+          <li>Completed the <b>TCS Youth Employment Program</b></li>
+          <li>Presented innovative tech solutions at the <b>College IT Fair</b></li>
+          <li>Winner — <b>Group Discussion Competition</b> for analytical thinking & communication</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="reveal">
+      <div class="section-eyebrow" style="justify-content:center;">checkout</div>
+      <h2 class="contact-title">Let's build something <span class="accent">solid</span>.</h2>
+      <p>Open to full-stack Magento 2 and e-commerce roles. Reach out directly — no forms, no gatekeeping.</p>
+      <div class="contact-ctas">
+        <a href="mailto:kumawatmotilal0035@gmail.com" class="btn btn-primary">kumawatmotilal0035@gmail.com</a>
+        <a href="tel:7874028263" class="btn btn-ghost">+91 78740 28263</a>
+      </div>
+      <div class="contact-meta">
+        <span><b>Location</b> · Gandhinagar, Gujarat</span>
+        <span><b>Languages</b> · Hindi, Gujarati, English</span>
+        <span><b>Off duty</b> · Sports & story writing</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">© 2026 Kumawat Motilal — built with plain HTML, CSS & JS</footer>
+
+<script>
+  // Ambient glow follows cursor
+  const glow = document.getElementById('glowField');
+  window.addEventListener('mousemove', (e) => {
+    glow.style.setProperty('--mx', e.clientX + 'px');
+    glow.style.setProperty('--my', e.clientY + 'px');
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal, .p-card');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Animated stat counters
+  const statEls = document.querySelectorAll('.stat-num');
+  const statIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const el = entry.target;
+        const target = parseFloat(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        const isDecimal = target % 1 !== 0;
+        let start = 0;
+        const duration = 1200;
+        const startTime = performance.now();
+        function tick(now){
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const value = target * eased;
+          el.textContent = (isDecimal ? value.toFixed(1) : Math.round(value)) + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        statIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  statEls.forEach(el => statIO.observe(el));
+
+  // Terminal typing sequence
+  const lines = [
+    { type: 'cmd', text: '$ whoami' },
+    { type: 'out', text: 'kumawat_motilal — magento 2 developer' },
+    { type: 'cmd', text: '$ php bin/magento module:status --core' },
+    { type: 'out', text: 'Custom_Classifieds ......... enabled' },
+    { type: 'out', text: 'MultiVendor_Base ........... enabled' },
+    { type: 'out', text: 'Painter_ProductType ........ enabled' },
+    { type: 'cmd', text: '$ cat skills.json | grep stack' },
+    { type: 'out', text: '"stack": ["Magento 2", "Laravel", "PHP", "jQuery"]' },
+    { type: 'cmd', text: '$ ./run-accessibility-audit.sh' },
+    { type: 'ok',  text: '✓ WCAG 2.2 AAA — 0 violations found' },
+    { type: 'cmd', text: '$ echo $STATUS' },
+    { type: 'ok',  text: 'available_for_hire=true' },
+  ];
+
+  const termBody = document.getElementById('terminalBody');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function renderStatic(){
+    termBody.innerHTML = lines.map(l => {
+      const cls = l.type === 'cmd' ? 'cmd' : (l.type === 'ok' ? 'ok' : 'out');
+      const prefix = l.type === 'cmd' ? '<span class="prompt">➜</span> ' : '&nbsp;&nbsp;';
+      return `<div class="${cls}">${prefix}${l.text}</div>`;
+    }).join('');
+  }
+
+  async function typeSequence(){
+    let lineIndex = 0;
+    async function nextLine(){
+      if (lineIndex >= lines.length){
+        return;
+      }
+      const l = lines[lineIndex];
+      const row = document.createElement('div');
+      row.className = l.type === 'cmd' ? 'cmd' : (l.type === 'ok' ? 'ok' : 'out');
+      const prefixSpan = document.createElement('span');
+      if (l.type === 'cmd'){
+        prefixSpan.className = 'prompt';
+        prefixSpan.textContent = '➜ ';
+        row.appendChild(prefixSpan);
+      } else {
+        row.appendChild(document.createTextNode('\u00A0\u00A0'));
+      }
+      const textNode = document.createElement('span');
+      row.appendChild(textNode);
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      row.appendChild(cursor);
+      termBody.appendChild(row);
+
+      if (l.type === 'cmd'){
+        for (let i = 0; i <= l.text.length; i++){
+          textNode.textContent = l.text.slice(0, i);
+          await new Promise(r => setTimeout(r, 22));
+        }
+        await new Promise(r => setTimeout(r, 180));
+      } else {
+        textNode.textContent = l.text;
+        await new Promise(r => setTimeout(r, 260));
+      }
+      cursor.remove();
+      lineIndex++;
+      await nextLine();
+    }
+    await nextLine();
+    // loop gently
+    await new Promise(r => setTimeout(r, 2200));
+    termBody.innerHTML = '';
+    typeSequence();
+  }
+
+  if (reduceMotion){
+    renderStatic();
+  } else {
+    typeSequence();
+  }
+</script>
+
+</body>
+</html>
